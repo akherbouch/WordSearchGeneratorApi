@@ -1,7 +1,6 @@
 package me.akherbouch.wsg
 
 import com.ryanharter.ktor.moshi.moshi
-import com.squareup.moshi.JsonAdapter
 import io.ktor.application.*
 import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
@@ -12,9 +11,8 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.response.*
 import io.ktor.routing.get
 import io.ktor.routing.routing
+import me.akherbouch.wsg.api.main.fromWords
 import me.akherbouch.wsg.api.random.random
-import me.akherbouch.wsg.util.Language
-import me.akherbouch.wsg.util.RandomWordsGenerator
 
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -42,6 +40,7 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         random()
+        fromWords()
         get("/") {
             call.respondText("Hi")
         }
