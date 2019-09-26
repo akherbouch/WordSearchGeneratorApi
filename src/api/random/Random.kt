@@ -13,7 +13,7 @@ import java.lang.Integer.max
 const val RANDOM_ENDPOINT = "$API_VERSION/random"
 
 fun Route.random() {
-    get(RANDOM_ENDPOINT) {
+    get("$RANDOM_ENDPOINT/puzzle") {
         val lang = call.request.queryParameters["lang"] ?: "en"
         val num = call.request.queryParameters["num"]?.toInt() ?: 10
         val lg = Language.fromString(lang)
@@ -22,5 +22,12 @@ fun Route.random() {
         randomWords.forEach { maxLength = max(maxLength,it.length)}
         val puzzle = PuzzleGenerator.generate(num, maxLength, randomWords, lg.abc)
         call.respond(puzzle)
+    }
+    get("$RANDOM_ENDPOINT/words") {
+        val lang = call.request.queryParameters["lang"] ?: "en"
+        val num = call.request.queryParameters["num"]?.toInt() ?: 10
+        val lg = Language.fromString(lang)
+        val randomWords = RandomWordsGenerator.getWords(num, lg)
+        call.respond(randomWords.toTypedArray())
     }
 }
