@@ -19,7 +19,9 @@ object PuzzleGenerator {
             wordLines.clear()
             for (word in words) {
                 val isReversed = Random().nextBoolean()
-                val line = grid.getUnusedLines(word.length).random()
+                val unUsedLines = grid.getUnusedLines(word.length)
+                if (unUsedLines.isEmpty()) continue
+                val line = unUsedLines.random()
                 val wordLine = WordLine(line, word, isReversed)
                 grid.putWordLine(wordLine)
                 wordLines += wordLine
